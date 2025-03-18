@@ -11,11 +11,33 @@
     <div class="container">
         <h2>Quotation Generator</h2>
         
-        <!-- Quotation Input Section -->
-        <input type="text" id="clientName" placeholder="Client Name">
-        <input type="text" id="item" placeholder="Item Description">
-        <input type="number" id="price" placeholder="Price">
-        <textarea id="notes" placeholder="Additional Notes"></textarea>
+        <table>
+            <tr>
+                <td><label for="eventName">Event Name</label></td>
+                <td><input type="text" id="eventName" placeholder="Enter Event Name"></td>
+            </tr>
+            <tr>
+                <td><label for="photography">Photography</label></td>
+                <td><input type="number" id="photography" placeholder="Enter Price"></td>
+            </tr>
+            <tr>
+                <td><label for="videography">Videography</label></td>
+                <td><input type="number" id="videography" placeholder="Enter Price"></td>
+            </tr>
+            <tr>
+                <td><label for="candid">Candid</label></td>
+                <td><input type="number" id="candid" placeholder="Enter Price"></td>
+            </tr>
+            <tr>
+                <td><label for="cinematic">Cinematic</label></td>
+                <td><input type="number" id="cinematic" placeholder="Enter Price"></td>
+            </tr>
+            <tr>
+                <td><label for="others">Others</label></td>
+                <td><input type="text" id="others" placeholder="Enter Details"></td>
+            </tr>
+        </table>
+
         <button onclick="generateQuotation()">Generate Quotation</button>
 
         <!-- Quotation Preview Section -->
