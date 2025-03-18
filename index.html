@@ -1,1 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotation Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .container { max-width: 600px; margin: auto; }
+        input, textarea { width: 100%; margin: 5px 0; padding: 10px; }
+        .quote-preview { border: 1px solid #ccc; padding: 15px; margin-top: 10px; }
+        button { padding: 10px; margin-top: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Quotation Generator</h2>
+        <input type="text" id="clientName" placeholder="Client Name">
+        <input type="text" id="item" placeholder="Item Description">
+        <input type="number" id="price" placeholder="Price">
+        <textarea id="notes" placeholder="Additional Notes"></textarea>
+        <button onclick="generateQuotation()">Generate Quotation</button>
+        <button onclick="downloadPDF()">Download as PDF</button>
+        
+        <div class="quote-preview" id="quotationPreview"></div>
+    </div>
+
+    <script>
+        function generateQuotation() {
+            let clientName = document.getElementById("clientName").value;
+            let item = document.getElementById("item").value;
+            let price = document.getElementById("price").value;
+            let notes = document.getElementById("notes").value;
+            
+            document.getElementById("quotationPreview").innerHTML = `
+                <h3>Quotation</h3>
+                <p><strong>Client:</strong> ${clientName}</p>
+                <p><strong>Item:</strong> ${item}</p>
+                <p><strong>Price:</strong> $${price}</p>
+                <p><strong>Notes:</strong> ${notes}</p>
+            `;
+        }
+
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            let doc = new jsPDF();
+            let content = document.getElementById("quotationPreview").innerText;
+            doc.text(content, 10, 10);
+            doc.save("quotation.pdf");
+        }
+    </script>
+</body>
+</html>
 
