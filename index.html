@@ -3,49 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quotation Generator</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Photography Quotation Generator</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h2>Quotation Generator</h2>
-        
+        <h2>Photography Quotation Generator</h2>
+        <input type="text" id="clientName" placeholder="Client Name">
         <table>
-            <tr>
-                <td><label for="eventName">Event Name</label></td>
-                <td><input type="text" id="eventName" placeholder="Enter Event Name"></td>
-            </tr>
-            <tr>
-                <td><label for="photography">Photography</label></td>
-                <td><input type="number" id="photography" placeholder="Enter Price"></td>
-            </tr>
-            <tr>
-                <td><label for="videography">Videography</label></td>
-                <td><input type="number" id="videography" placeholder="Enter Price"></td>
-            </tr>
-            <tr>
-                <td><label for="candid">Candid</label></td>
-                <td><input type="number" id="candid" placeholder="Enter Price"></td>
-            </tr>
-            <tr>
-                <td><label for="cinematic">Cinematic</label></td>
-                <td><input type="number" id="cinematic" placeholder="Enter Price"></td>
-            </tr>
-            <tr>
-                <td><label for="others">Others</label></td>
-                <td><input type="text" id="others" placeholder="Enter Details"></td>
-            </tr>
+            <thead>
+                <tr>
+                    <th>Event Name</th>
+                    <th>Photography</th>
+                    <th>Videography</th>
+                    <th>Candid</th>
+                    <th>Cinematic</th>
+                    <th>Others</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
         </table>
-
+        <button onclick="addRow()">Add Entry</button>
         <button onclick="generateQuotation()">Generate Quotation</button>
-
-        <!-- Quotation Preview Section -->
-        <div class="quote-preview" id="quotationPreview"></div>
-
         <button onclick="downloadPDF()">Download as PDF</button>
+        <button onclick="resetForm()">Reset</button>
+        <div class="quote-preview" id="quotationPreview"></div>
     </div>
-
-    <script src="script.js"></script> <!-- Link to external JavaScript -->
+    <script src="script.js"></script>
 </body>
 </html>
