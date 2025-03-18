@@ -1,131 +1,155 @@
-document.addEventListener("DOMContentLoaded", loadSavedData);
+document.addEventListener("DOMContentLoaded", function () {
+    loadClientDetails();
+    loadEventTable();
+});
 
-function addRow() {
-    const tableBody = document.getElementById("tableBody");
-    const row = document.createElement("tr");
+let editingIndex = -1; // Track index for editing
 
-    row.innerHTML = `
-        <td><input type="text" class="event-name"></td>
-        <td><input type="text" class="photography"></td>
-        <td><input type="text" class="videography"></td>
-        <td><input type="text" class="candid"></td>
-        <td><input type="text" class="cinematic"></td>
-        <td><input type="text" class="others"></td>
-        <td><button onclick="deleteRow(this)">❌</button></td>
-    `;
+// Function to add or update an event in the preview table
+function addEvent() {
+    let eventName = document.getElementById("eventName").value.trim();
+    let photography = document.getElementById("photography").value.trim();
+    let videography = document.getElementById("videography").value.trim();
+    let candid = document.getElementById("candid").value.trim();
+    let cinematic = document.getElementById("cinematic").value.trim();
+    let otherDetails = document.getElementById("otherDetails").value.trim();
 
-    tableBody.appendChild(row);
-    saveData();
-}
-
-function deleteRow(button) {
-    button.parentElement.parentElement.remove();
-    saveData();
-}
-
-function saveData() {
-    const data = {
-        clientName: document.getElementById("clientName").value,
-        tableData: Array.from(document.querySelectorAll("#tableBody tr")).map(row => ({
-            eventName: row.querySelector(".event-name").value,
-            photography: row.querySelector(".photography").value,
-            videography: row.querySelector(".videography").value,
-            candid: row.querySelector(".candid").value,
-            cinematic: row.querySelector(".cinematic").value,
-            others: row.querySelector(".others").value,
-        }))
-    };
-    localStorage.setItem("quotationData", JSON.stringify(data));
-}
-
-function loadSavedData() {
-    const savedData = JSON.parse(localStorage.getItem("quotationData"));
-    if (!savedData) return;
-
-    document.getElementById("clientName").value = savedData.clientName;
-    savedData.tableData.forEach(entry => {
-        addRow();
-        const lastRow = document.querySelector("#tableBody tr:last-child");
-        lastRow.querySelector(".event-name").value = entry.eventName;
-        lastRow.querySelector(".photography").value = entry.photography;
-        lastRow.querySelector(".videography").value = entry.videography;
-        lastRow.querySelector(".candid").value = entry.candid;
-        lastRow.querySelector(".cinematic").value = entry.cinematic;
-        lastRow.querySelector(".others").value = entry.others;
-    });
-}
-
-function generateQuotation() {
-    const clientName = document.getElementById("clientName").value;
-    if (!clientName) {
-        alert("Please enter the client name!");
+    if (!eventName) {
+        alert("Event Name is required.");
         return;
     }
 
-    let quotationHTML = `
-        <h2>📸 Photography Quotation</h2>
-        <h3>Company Name</h3>
-        <p><strong>Client Name:</strong> ${clientName}</p>
-        <p><strong>Description:</strong> Professional photography services for your special events.</p>
-        <table border="1">
-            <tr>
-                <th>Event Name</th>
-                <th>Photography</th>
-                <th>Videography</th>
-                <th>Candid</th>
-                <th>Cinematic</th>
-                <th>Others</th>
-            </tr>
-    `;
+    let events = JSON.parse(localStorage.getItem("events")) || [];
 
-    document.querySelectorAll("#tableBody tr").forEach(row => {
-        quotationHTML += `
-            <tr>
-                <td>${row.querySelector(".event-name").value}</td>
-                <td>${row.querySelector(".photography").value}</td>
-                <td>${row.querySelector(".videography").value}</td>
-                <td>${row.querySelector(".candid").value}</td>
-                <td>${row.querySelector(".cinematic").value}</td>
-                <td>${row.querySelector(".others").value}</td>
-            </tr>
-        `;
-    });
+    if (editingIndex === -1) {
+        // Add new event
+        events.push({ eventName, photography, videography, candid, cinematic, otherDetails });
+    } else {
+        // Update existing event
+        events[editingIndex] = { eventName, photography, videography, candid, cinematic, otherDetails };
+        editingIndex = -1; // Reset index
+    }
 
-    quotationHTML += `</table>
-        <h4>Other Details:</h4>
-        <p>All prices are exclusive of taxes. Final cost will depend on the services selected.</p>
-        <h4>Contact Information:</h4>
-        <p>Email: contact@photography.com | Phone: +123-456-7890</p>
-    `;
-
-    document.getElementById("quotationPreview").innerHTML = quotationHTML;
+    localStorage.setItem("events", JSON.stringify(events));
+    loadEventTable();
+    clearEventForm();
 }
 
+// Function to load the preview table from localStorage
+function loadEventTable() {
+    let tableBody = document.getElementById("previewTable");
+    tableBody.innerHTML = "";
+    let events = JSON.parse(localStorage.getItem("events")) || [];
+
+    events.forEach((event, index) => {
+        let row = `<tr>
+            <td>${event.eventName}</td>
+            <td>${event.photography}</td>
+            <td>${event.videography}</td>
+            <td>${event.candid}</td>
+            <td>${event.cinematic}</td>
+            <td>
+                <button class="btn btn-light btn-sm" onclick="editEvent(${index})">
+                    <i class="material-icons">edit</i>
+                </button>
+                <button class="btn btn-light btn-sm" onclick="deleteEvent(${index})">
+                    <i class="material-icons">delete</i>
+                </button>
+            </td>
+        </tr>`;
+        tableBody.innerHTML += row;
+    });
+}
+
+// Function to edit an event
+function editEvent(index) {
+    let events = JSON.parse(localStorage.getItem("events"));
+    let event = events[index];
+
+    document.getElementById("eventName").value = event.eventName;
+    document.getElementById("photography").value = event.photography;
+    document.getElementById("videography").value = event.videography;
+    document.getElementById("candid").value = event.candid;
+    document.getElementById("cinematic").value = event.cinematic;
+    document.getElementById("otherDetails").value = event.otherDetails;
+
+    editingIndex = index; // Store index for updating
+}
+
+// Function to delete an event
+function deleteEvent(index) {
+    let events = JSON.parse(localStorage.getItem("events"));
+    events.splice(index, 1);
+    localStorage.setItem("events", JSON.stringify(events));
+    loadEventTable();
+}
+
+// Function to clear only event fields
+function clearEventForm() {
+    document.getElementById("eventName").value = "";
+    document.getElementById("photography").value = "";
+    document.getElementById("videography").value = "";
+    document.getElementById("candid").value = "";
+    document.getElementById("cinematic").value = "";
+    document.getElementById("otherDetails").value = "";
+}
+
+// Function to save and load client details persistently
+function saveClientDetails() {
+    let clientDetails = {
+        name: document.getElementById("clientName").value.trim(),
+        contact: document.getElementById("clientContact").value.trim(),
+        location: document.getElementById("clientLocation").value.trim()
+    };
+    localStorage.setItem("clientDetails", JSON.stringify(clientDetails));
+}
+
+function loadClientDetails() {
+    let clientDetails = JSON.parse(localStorage.getItem("clientDetails"));
+    if (clientDetails) {
+        document.getElementById("clientName").value = clientDetails.name;
+        document.getElementById("clientContact").value = clientDetails.contact;
+        document.getElementById("clientLocation").value = clientDetails.location;
+    }
+}
+
+// Function to clear all stored data
+function clearData() {
+    localStorage.removeItem("events");
+    localStorage.removeItem("clientDetails");
+    document.getElementById("clientName").value = "";
+    document.getElementById("clientContact").value = "";
+    document.getElementById("clientLocation").value = "";
+    clearEventForm();
+    loadEventTable();
+}
+
+// Function to open the quotation preview in a modal
+function previewQuotation() {
+    let modal = document.getElementById("quotationModal");
+    let modalContent = document.getElementById("quotationContent");
+    
+    // Load quotation.html content inside the modal
+    fetch("quotation.html")
+        .then(response => response.text())
+        .then(data => {
+            modalContent.innerHTML = data;
+            modal.style.display = "block";
+        })
+        .catch(error => console.error("Error loading quotation:", error));
+}
+
+// Function to close the modal
+function closeModal() {
+    document.getElementById("quotationModal").style.display = "none";
+}
+
+// Function to download quotation as PDF
 function downloadPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-
-    doc.text("Photography Quotation", 10, 10);
-    doc.text("Company Name", 10, 20);
-    doc.text(`Client Name: ${document.getElementById("clientName").value}`, 10, 30);
-    doc.text("Description: Professional photography services for your special events.", 10, 40);
-
-    let y = 50;
-    doc.text("Event Details:", 10, y);
-    document.querySelectorAll("#tableBody tr").forEach(row => {
-        y += 10;
-        doc.text(
-            `${row.querySelector(".event-name").value} | ${row.querySelector(".photography").value} | ${row.querySelector(".videography").value} | ${row.querySelector(".candid").value} | ${row.querySelector(".cinematic").value} | ${row.querySelector(".others").value}`,
-            10, y
-        );
-    });
-
-    doc.text("Other Details: All prices are exclusive of taxes.", 10, y + 20);
-    doc.text("Contact: contact@photography.com | +123-456-7890", 10, y + 30);
-    doc.save("Quotation.pdf");
+    window.open("quotation.html", "_blank");
 }
 
-function resetForm() {
-    localStorage.removeItem("quotationData");
-    location.reload();
-}
+// Event Listeners
+document.getElementById("clientName").addEventListener("input", saveClientDetails);
+document.getElementById("clientContact").addEventListener("input", saveClientDetails);
+document.getElementById("clientLocation").addEventListener("input", saveClientDetails);
