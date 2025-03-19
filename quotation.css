@@ -1,0 +1,48 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #fff;
+    color: #333;
+    width: 21cm;
+    height: 29.7cm;
+    padding: 15px;
+    margin: auto;
+    box-sizing: border-box;
+}
+
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo {
+    width: 60px;
+    height: 60px;
+}
+
+.company-name {
+    font-size: 22px;
+    text-transform: uppercase;
+}
+
+/* Sections */
+.container {
+    border-radius: 8px;
+    padding: 8px;
+}
+
+/* Tables */
+.table {
+    font-size: 12px;
+    border: 1px solid black;
+}
+
+/* Footer - Two Column Layout */
+footer {
+    border-radius: 5px;
+}
+
+footer .col-md-6 {
+    padding: 10px;
+}

@@ -48,6 +48,7 @@ function loadEventTable() {
             <td>${event.videography}</td>
             <td>${event.candid}</td>
             <td>${event.cinematic}</td>
+            <td>${event.otherDetails}</td>
             <td>
                 <button class="btn btn-light btn-sm" onclick="editEvent(${index})">
                     <i class="material-icons">edit</i>
