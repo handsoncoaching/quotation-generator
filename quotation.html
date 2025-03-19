@@ -1,59 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Quotation PDF</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        .header {
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background: #000;
-            color: #fff;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Photography Quotation</title>
+
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="quotation.css">
 </head>
+
 <body>
-    <div class="header">
-        <img src="logo.png" width="100" height="100">
-        SHUTTER CAPTURES PHOTOGRAPHY
+
+    <!-- Wrap Everything for PDF/JPEG Capture -->
+    <div id="quotationWrapper">
+
+        <!-- Header Section -->
+        <header class="header bg-dark text-white d-flex align-items-center justify-content-center p-3 shadow">
+            <h1 class="company-name ms-3">SHUTTER CAPTURES PHOTOGRAPHY</h1>
+        </header>
+
+        <!-- Main Content -->
+        <div id="quotationContent" class="container mt-4 p-3 bg-light shadow rounded">
+
+            <!-- Client & Quotation Info -->
+            <div class="row">
+                <div class="col-md-6">
+                    <h4><i class="material-icons">person</i> Client Details</h4>
+                    <p><strong>Name:</strong> <span id="clientName"></span></p>
+                    <p><strong>Phone:</strong> <span id="clientContact"></span></p>
+                    <p><strong>Location:</strong> <span id="clientLocation"></span></p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h4><i class="material-icons">receipt</i> Quotation Info</h4>
+                    <p><strong>Quotation ID:</strong> <span id="quotationId"></span></p>
+                    <p><strong>Date:</strong> <span id="quotationDate"></span></p>
+                </div>
+            </div>
+
+            <!-- Event Details -->
+            <h4 class="mt-3"><i class="material-icons">event</i> Event Details</h4>
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Event Name</th>
+                        <th>Photography</th>
+                        <th>Videography</th>
+                        <th>Candid</th>
+                        <th>Cinematic</th>
+                        <th>Other Details</th>
+                    </tr>
+                </thead>
+                <tbody id="eventDetailsTable"></tbody>
+            </table>
+
+            <!-- Pricing Section -->
+            <!-- <h4 class="mt-3"><i class="material-icons">attach_money</i> Pricing</h4> -->
+            <p class="fs-5"><strong>Total Amount:</strong> <span id="totalAmount"></span></p>
+
+            <!-- Specifications Section -->
+            <section class="container mt-4 p-4 bg-white shadow rounded">
+                <h4><i class="material-icons">info</i> Specifications</h4>
+
+                <!-- Two Paragraphs -->
+                <p>
+                    Our photography and videography services include high-resolution coverage using professional
+                    equipment.
+                    We ensure a cinematic experience with expert post-processing, ensuring every moment is captured
+                    beautifully.
+                </p>
+                <p>
+                    We provide high-quality albums crafted with durable materials, available in various designs and
+                    sizes.
+                    Every album is customized to showcase your special moments with elegance and style.
+                </p>
+
+                <!-- Two Columns -->
+                <div class="row mt-3">
+                    <!-- Camera Details -->
+                    <div class="col-md-6">
+                        <h5><i class="material-icons">photo_camera</i> Camera Details</h5>
+                        <ul>
+                            <li>Canon EOS R5 (45MP, 8K Video)</li>
+                            <li>Sony A7 III (24MP, 4K Video)</li>
+                            <li>DJI Mavic Air 2 Drone (4K Aerial Shots)</li>
+                            <li>Multiple Lens Options (Wide, Telephoto, Macro)</li>
+                        </ul>
+                    </div>
+
+                    <!-- Album Details -->
+                    <div class="col-md-6">
+                        <h5><i class="material-icons">book</i> Album Details</h5>
+                        <ul>
+                            <li>Premium Leather-bound Wedding Albums</li>
+                            <li>Custom Hard Cover Albums with UV Printing</li>
+                            <li>Available in 12x12 and 15x15 Sizes</li>
+                            <li>Glossy and Matte Finish Options</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Contact Info (Two Columns) -->
+            <footer class="row mt-3 text-white p-3 bg-dark">
+                <div class="col-md-6">
+                    <h4>Shutter Captures Photography</h4> <!-- Replaced "Company Information" -->
+                    <p>Website: www.shuttercaptures.com</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h4>+123-456-7890</h4> <!-- Replaced "Contact Information" -->
+                    <p>Email: contact@shuttercaptures.com</p>
+                </div>
+            </footer>
+
+        </div>
+
+    </div> <!-- End of quotationWrapper -->
+
+    <!-- Buttons Section -->
+    <div class="button-group text-center mt-4">
+        <button class="btn btn-secondary" onclick="goBack()">
+            <i class="material-icons">arrow_back</i> Back
+        </button>
+        <button class="btn btn-primary" onclick="downloadPDF()">
+            <i class="material-icons">picture_as_pdf</i> Download PDF
+        </button>
+        <button class="btn btn-success" onclick="downloadJPEG()">
+            <i class="material-icons">image</i> Download JPEG
+        </button>
     </div>
-    <p><strong>Client Name:</strong> John Doe</p>
-    <table>
-        <thead>
-            <tr>
-                <th>Event Name</th>
-                <th>Photography</th>
-                <th>Videography</th>
-                <th>Candid</th>
-                <th>Cinematic</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Wedding</td>
-                <td>Yes</td>
-                <td>No</td>
-                <td>Yes</td>
-                <td>No</td>
-            </tr>
-        </tbody>
-    </table>
+
+
+    <!-- Bootstrap JS, jsPDF, html2canvas & Custom JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="quotation.js"></script>
+
+
 </body>
+
 </html>

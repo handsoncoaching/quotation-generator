@@ -48,6 +48,7 @@ function loadEventTable() {
             <td>${event.videography}</td>
             <td>${event.candid}</td>
             <td>${event.cinematic}</td>
+            <td>${event.otherDetails}</td>
             <td>
                 <button class="btn btn-light btn-sm" onclick="editEvent(${index})">
                     <i class="material-icons">edit</i>
@@ -124,29 +125,28 @@ function clearData() {
     loadEventTable();
 }
 
-// Function to open the quotation preview in a modal
+// Function to preview quotation (opens in same tab)
 function previewQuotation() {
-    let modal = document.getElementById("quotationModal");
-    let modalContent = document.getElementById("quotationContent");
-    
-    // Load quotation.html content inside the modal
-    fetch("quotation.html")
-        .then(response => response.text())
-        .then(data => {
-            modalContent.innerHTML = data;
-            modal.style.display = "block";
-        })
-        .catch(error => console.error("Error loading quotation:", error));
-}
+    let clientDetails = {
+        name: document.getElementById("clientName").value.trim(),
+        contact: document.getElementById("clientContact").value.trim(),
+        location: document.getElementById("clientLocation").value.trim(),
+    };
 
-// Function to close the modal
-function closeModal() {
-    document.getElementById("quotationModal").style.display = "none";
-}
+    let pricingAmount = document.getElementById("pricingAmount").value.trim() || "0.00";
 
-// Function to download quotation as PDF
-function downloadPDF() {
-    window.open("quotation.html", "_blank");
+    let events = JSON.parse(localStorage.getItem("events")) || [];
+
+    if (!clientDetails.name || !pricingAmount) {
+        alert("Please fill in the client details and pricing amount.");
+        return;
+    }
+
+    localStorage.setItem("clientDetails", JSON.stringify(clientDetails));
+    localStorage.setItem("events", JSON.stringify(events));
+    localStorage.setItem("pricingAmount", pricingAmount);
+
+    window.location.href = "quotation.html"; // Open in same tab
 }
 
 // Event Listeners
