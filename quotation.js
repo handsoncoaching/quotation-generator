@@ -34,7 +34,9 @@ function loadQuotationDetails() {
         tableBody.innerHTML += row;
     });
 
-    document.getElementById("totalAmount").textContent = "$0.00";
+    document.getElementById("totalAmount").textContent = "₹0.00"; // Default INR price
+    document.getElementById("pricingAmount").textContent = `₹${parseFloat(pricingAmount).toLocaleString("en-IN")}`;
+
 }
 
 // Redirect to quotation generator

@@ -46,3 +46,59 @@ footer {
 footer .col-md-6 {
     padding: 10px;
 }
+/* Button Styling - Matches Quotation Generator */
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.button-group .btn {
+    min-width: 130px;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    border-radius: 25px; /* Rounded buttons */
+    border: 2px solid black;
+    background: white;
+    color: black;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    letter-spacing: 0.8px;
+}
+
+/* Button Hover Effects */
+.button-group .btn:hover {
+    background: black;
+    color: white;
+    transform: translateY(-1px);
+}
+
+/* Specifications Section */
+.specifications {
+    margin-top: 20px;
+}
+
+.specifications h5 {
+    font-size: 16px;
+    border-bottom: 1px solid black;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.specifications ul {
+    list-style-type: square;
+    padding-left: 20px;
+}
+
+.specifications ul li {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
